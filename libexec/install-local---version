@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#
+# Summary: Display the version of install-local
+#
+# Usage: install-local --version
+#
+# Displays the version number of this install-local" release, including the
+# current revision from git, if available.
+#
+# The format of the git revision is:
+#   <version>-<num_commits>-<git_sha>
+# where `num_commits` is the number of commits since `version` was
+# tagged.
+
+set -e
+[ -n "$INSTALL_LOCAL_DEBUG" ] && set -x
+
+version="0.0.0"
+
+if cd "${INSTALL_LOCAL_ROOT}" 2>/dev/null; then
+  git_revision="$(git describe --tags HEAD 2>/dev/null || true)"
+  git_revision="${git_revision#v}"
+fi
+
+echo "install-local ${git_revision:-$version}"

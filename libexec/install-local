@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+: ${INSTALL_LOCAL:="$(dirname "$0")/.."}
+: ${INSTALL_LOCAL_TOOLS:="${INSTALL_LOCAL}/tools"}
+: ${INSTALL_LOCAL_DEBUG:="false"}
+
+source "${INSTALL_LOCAL}/lib/colors.bash" || exit 1
+
+export PATH="${INSTALL_LOCAL}/libexec:${PATH}"
+
+#source "${INSTALL_LOCAL}/lib/preexec.bash" || exit 1
+#function preexec (){
+#  printf "${echo_green}[install-local]${normal} "
+#}
+#preexec_interactive_mode=yes
+#preexec_install || exit 1
+
+function info__() {
+  echo "[INFO] $@"
+}
+
+function debug__() {
+  if test "x${INSTALL_LOCAL_DEBUG}" = "xtrue" || \
+     test "x${INSTALL_LOCAL_DEBUG}" = "xyes";
+  then
+      echo "[DEBUG] $@"
+  fi
+}
+
+#------------------------------------------------------------------------------
+# Install-Local API
+#------------------------------------------------------------------------------
+function list_tools__() {
+  for tool_path in $(find "${INSTALL_LOCAL_TOOLS}" -maxdepth 2 -type d ! -path "${INSTALL_LOCAL_TOOLS}"); do
+    tool_name="$(basename "${tool_path}")"
+    debug__ "tool_path=\"${tool_path}\""
+    debug__ "tool_name=\"${tool_name}\""
+    echo "${tool_name}"
+  done
+}
+
+function process_cli__() {
+  command="$1"
+  case "${command}" in
+    "" | "-h" | "--help" )
+        echo -e "$(install-local-help)" >&2
+        ;;
+    "list" | "--list" )
+        list_tools__
+        ;;
+  esac
+}
+
+function start_main__() {
+  process_cli__ $@
+}
+
+start_main__ $@
+
