@@ -13,7 +13,7 @@
 # tagged.
 
 set -e
-[ -n "$INSTALL_LOCAL_DEBUG" ] && set -x
+[ -n "$INSTALL_LOCAL_TRACE" ] && set -x
 
 version="0.0.0"
 

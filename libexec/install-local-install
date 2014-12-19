@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#
+# Summary: Install a specific tool
+#
+# Usage: install-local install [--usage] TOOL
+#
+# Auto-magically installs TOOL and its dependencies.
+
+set -e
+[ -n "$INSTALL_LOCAL_TRACE" ] && set -x
+
+tool="$1"
+

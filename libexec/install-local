@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
+# Inspiration from nodenv 
+# CLI inspiration, check bats
 
 : ${INSTALL_LOCAL:="$(dirname "$0")/.."}
 : ${INSTALL_LOCAL_TOOLS:="${INSTALL_LOCAL}/tools"}
 : ${INSTALL_LOCAL_DEBUG:="false"}
+: ${INSTALL_LOCAL_TRACE:=}
+export INSTALL_LOCAL
+export INSTALL_LOCAL_TOOLS
+export INSTALL_LOCAL_DEBUG
 
 source "${INSTALL_LOCAL}/lib/colors.bash" || exit 1
 
@@ -27,17 +33,12 @@ function debug__() {
   fi
 }
 
+export -f info__
+export -f debug__
+
 #------------------------------------------------------------------------------
 # Install-Local API
 #------------------------------------------------------------------------------
-function list_tools__() {
-  for tool_path in $(find "${INSTALL_LOCAL_TOOLS}" -maxdepth 2 -type d ! -path "${INSTALL_LOCAL_TOOLS}"); do
-    tool_name="$(basename "${tool_path}")"
-    debug__ "tool_path=\"${tool_path}\""
-    debug__ "tool_name=\"${tool_name}\""
-    echo "${tool_name}"
-  done
-}
 
 function process_cli__() {
   command="$1"
@@ -45,8 +46,18 @@ function process_cli__() {
     "" | "-h" | "--help" )
         echo -e "$(install-local-help)" >&2
         ;;
-    "list" | "--list" )
-        list_tools__
+    "-v" | "--version" )
+        exec install-local-version
+        ;;
+    * )
+        command_path="$(command -v "install-local-${command}" || true)"
+        if [ -z "${command_path}" ]; then
+            echo "install-local: no such command \'${command}'" >&2
+            exit 1
+        fi
+
+        shift 1
+        exec "${command_path}" "$@"
         ;;
   esac
 }

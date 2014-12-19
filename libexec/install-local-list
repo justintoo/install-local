@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#
+# Summary: Display list of available tools
+#
+# Usage: install-local list
+#
+# Displays list of available tools.
+#
+# A tool may be available in many variations.
+
+set -e
+[ -n "$INSTALL_LOCAL_TRACE" ] && set -x
+
+function list_tools__() {
+  for tool_path in $(find "${INSTALL_LOCAL_TOOLS}" -maxdepth 2 -type d ! -path "${INSTALL_LOCAL_TOOLS}"); do
+    tool_name="$(basename "${tool_path}")"
+    debug__ "tool_path=\"${tool_path}\""
+    debug__ "tool_name=\"${tool_name}\""
+    echo "${tool_name}"
+  done
+}
+
+list_tools__ "$@"
+
