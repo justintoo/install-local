@@ -4,5 +4,11 @@
 
 source "${INSTALL_LOCAL}/lib/colors.bash" || exit 1
 
-echo -e "${echo_red}Hello, install-local!${normal}"
+source "${INSTALL_LOCAL}/lib/preexec.bash" || exit 1
+function preexec (){
+  printf "${echo_green}[install-local]${normal} "
+}
+preexec_interactive_mode=yes
+preexec_install || exit 1
+
 
