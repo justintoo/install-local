@@ -16,9 +16,13 @@ function use_tool__() {
     info__ "[FATAL] ${tool} ${version} is not installed. Aborting..."
     exit 1 
   else
-    info__ "Usage: ${tool} ${version}"
-    info__ 
-    info__ "    $ source ${setup_file}"
+    if test "x$3" = "x--silent"; then
+      echo "source ${setup_file}"
+    else 
+      info__ "Usage: ${tool} ${version}"
+      info__ 
+      info__ "    $ source ${setup_file}"
+    fi
   fi
 }
 
