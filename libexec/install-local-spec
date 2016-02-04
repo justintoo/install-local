@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+#
+# Summary: Parses a spec
+#
+# Usage: install-local spec [--usage] SPEC
+#
+# Parses a spec
+#
+#     automake@1.14 ^autoconf@2.69
+#
+#
+
+set -e
+[ -n "$INSTALL_LOCAL_TRACE" ] && set -x
+
+function spec__parse_tool__() {
+  tool_spec="$1"
+  IFS=@ read tool version <<< "${tool_spec}"
+  info__ "tool ${tool}"
+  info__ "version ${version}"
+}
+
+function spec__parse_dependency__() {
+  dependency_spec="$1"
+  tool_spec="$(echo "${dependency_spec}" | sed 's/^\^//')"
+  spec__parse_tool__ "${tool_spec}"
+}
+
+function spec__parse_compiler__() {
+  compiler="$1"
+}
+
+function spec__() {
+  spec="$1"
+
+  for spec_component in $@; do
+    info__ "spec component = $spec_component"
+    case $spec_component in
+      ^*)
+        info__ "spec dependency $spec_component"
+        spec__parse_dependency__ $spec_component
+        ;;
+      %*)
+        info__ "spec compiler $spec_component"
+        spec__parse_compiler__ $spec_component
+        ;;
+      *)
+        info__ "spec tool $spec_component"
+        spec__parse_tool__ $spec_component
+        ;;
+    esac
+  done  
+}
+
+spec__ "$@"
+
