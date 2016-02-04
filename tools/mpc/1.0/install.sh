@@ -2,7 +2,7 @@
 
 function install_mpc_dependencies() {
   installdir="$1"
-  install-local install gmp 5.1.2
+  install-local install mpfr 3.1.2
 }
 
 function install_mpc() {
