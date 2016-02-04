@@ -12,6 +12,8 @@ set -e
 function install_tool__() {
   tool="$1" version="$2" prefix="${tool}/${version}" installdir="${INSTALL_LOCAL_DESTDIR}/${prefix}" workspace="${INSTALL_LOCAL_TMPDIR}/${prefix}"
 
+  install-local has "${tool}" "${version}"
+
   info__ "Preparing to install ${tool} ${version} to ${installdir} using workspace ${workspace}"
   source "${INSTALL_LOCAL_TOOLS}/${prefix}/install.sh"
 
@@ -22,6 +24,8 @@ function install_tool__() {
   install_${tool} ${version} ${installdir}
 
   popd
+
+  install-local use "${tool}" "${version}"
 
   # Enable once tests and safeguards are in place;
   # just to avoid unintended rm -rf catastrophes ;-)
