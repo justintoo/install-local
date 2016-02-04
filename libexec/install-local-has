@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#
+# Summary: Check if a specific tool is available for installation
+#
+# Usage: install-local has [--usage] TOOL [VERSION]
+#
+# Checks if a specific tool is available for installation
+
+set -e
+[ -n "$INSTALL_LOCAL_TRACE" ] && set -x
+
+function has_tool__() {
+  tool="$1" version="$2" prefix="${tool}/${version}" installdir="${INSTALL_LOCAL_DESTDIR}/${prefix}" workspace="${INSTALL_LOCAL_TMPDIR}/${prefix}"
+
+  if test -z "${tool}"; then
+    info__ "[FATAL] Please specify a tool to check"
+    info__
+    install-local help has
+    exit 1
+  fi
+
+  tool_path="${INSTALL_LOCAL_TOOLS}/${tool}/${version}"
+
+  if ! test -d "${tool_path}"; then
+    info__ "${tool} ${version} is not available"
+    exit 1
+  else
+    info__ "${tool} ${version} is available"
+    info__
+    info__ "Use the 'install' command to install it:"
+    info__
+    install-local help install
+  fi
+}
+
+has_tool__ "$@"
+

@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# Summary: Check if TOOL is installed
+#
+# Usage: install-local installed [--usage] [TOOL [VERSION]]
+#
+# Returns true if TOOL is installed
+#
+# TODO: Handle * wildcards for TOOL and VERSION
+#
+#     $ install-local installed
+#     $ install-local installed autoconf
+#     $ install-local installed autoconf 2.*
+#
+
+set -e
+[ -n "$INSTALL_LOCAL_TRACE" ] && set -x
+
+function installed_tool__() {
+  tool="$1" version="$2" prefix="${tool}/${version}" installdir="${INSTALL_LOCAL_DESTDIR}/${prefix}"
+
+  if test -z "${tool}" || test -z "${version}"; then
+    info__ "[FATAL] Please specify a tool and version to check"
+    install-local help installed
+    exit 1
+  fi
+
+  if ! setup_file="$(find "${installdir}/setup.sh" 2>/dev/null)"; then
+    info__ "${tool} ${version} is not installed"
+
+    if ! output="$(install-local has ${tool} ${version})"; then
+      echo ${output}
+      exit 1
+    fi
+
+    exit 1
+  else
+    info__ "${tool} ${version} is installed"
+    info__ 
+    install-local use ${tool} ${version}
+  fi
+}
+
+installed_tool__ "$@"
+

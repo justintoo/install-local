@@ -1,16 +1,17 @@
 #!/bin/bash -e
 
-function install_autoconf_dependencies() {
+function install_automake_dependencies() {
   installdir="$1"
+  install-local install autoconf 2.69
 }
 
-function install_autoconf() {
+function install_automake() {
   version="$1"
   installdir="$2"
   setup_file="${installdir}/setup.sh"
-  srcdir="$(pwd)/autoconf-${version}"
-  tarball="autoconf-${version}.tar.xz"
-  download_url="http://ftp.gnu.org/gnu/autoconf/${tarball}"
+  srcdir="$(pwd)/automake-${version}"
+  tarball="automake-${version}.tar.xz"
+  download_url="http://ftp.gnu.org/gnu/automake/${tarball}"
 
   echo "version=${version}"
   echo "installdir=${installdir}"
@@ -23,18 +24,18 @@ function install_autoconf() {
   # Download and unpack
   #-------------------------------------------------------------------------------
   if [ ! -f "$tarball" -a ! -f "${tarball%.xz}" ]; then
-      echo "[INFO] Downloading Autoconf '$download_url'"
+      echo "[INFO] Downloading Automake '$download_url'"
       wget --verbose "$download_url" || exit 1
   else
-      echo "[INFO] [SKIP] Autoconf tarball already exists: '$tarball'"
+      echo "[INFO] [SKIP] Automake tarball already exists: '$tarball'"
   fi
   
   if [ ! -d "$srcdir" ]; then
-      echo "[INFO] Unpacking Autoconf tarball: '$tarball'"
+      echo "[INFO] Unpacking Automake tarball: '$tarball'"
       unxz "$tarball" || exit 1
       tar xvf "${tarball%.xz}"
   else
-      echo "[INFO] [SKIP] Autoconf source code already exists: '$srcdir'"
+      echo "[INFO] [SKIP] Automake source code already exists: '$srcdir'"
   fi
   
   #-------------------------------------------------------------------------------
@@ -43,7 +44,7 @@ function install_autoconf() {
   cd "${srcdir}"
   
   if [ ! -e "${installdir}/bin" ]; then
-      echo "[INFO] Configuring Autoconf"
+      echo "[INFO] Configuring Automake"
       echo "[INFO] Installing to '$installdir'"
   
       "${srcdir}/configure" --prefix="$installdir" || exit 1
@@ -52,7 +53,7 @@ function install_autoconf() {
       make -j install || exit 1
   fi
   
-      echo "[INFO] Creating Autoconf environment setup file ${setup_file}"
+      echo "[INFO] Creating Automake environment setup file ${setup_file}"
       cat > "${setup_file}" <<-EOF
 #!/bin/bash
 #

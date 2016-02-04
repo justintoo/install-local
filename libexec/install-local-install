@@ -18,6 +18,7 @@ function install_tool__() {
   mkdir -p "${workspace}"
   pushd    "${workspace}"
   
+  install_${tool}_dependencies ${installdir}
   install_${tool} ${version} ${installdir}
 
   popd
