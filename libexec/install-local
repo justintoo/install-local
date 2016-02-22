@@ -3,20 +3,30 @@
 # CLI inspiration, check bats
 
 : ${INSTALL_LOCAL:="$(dirname "$0")/.."}
-: ${INSTALL_LOCAL_DESTDIR:="${HOME}/.install-local"}
-: ${INSTALL_LOCAL_TOOLS:="${INSTALL_LOCAL}/tools"}
+
+source "${INSTALL_LOCAL}/lib/colors.bash" || exit 1
+source "${INSTALL_LOCAL}/lib/detect-os.bash" || exit 1
+
+: ${INSTALL_LOCAL_OS_DISTRO:="unknown-linux"}
+: ${INSTALL_LOCAL_OS_ARCHITECTURE:="unknown-architecture"}
+: ${INSTALL_LOCAL_OS_VERSION:="unknown-version"}
+: ${INSTALL_LOCAL_PLATFORM_VERSION_PATH:="${INSTALL_LOCAL_OS_DISTRO}/${INSTALL_LOCAL_OS_VERSION}/${INSTALL_LOCAL_OS_ARCHITECTURE}"}
+: ${INSTALL_LOCAL_DESTDIR:="${HOME}/.install-local/${INSTALL_LOCAL_PLATFORM_VERSION_PATH}"}
+: ${INSTALL_LOCAL_TOOLS:="${INSTALL_LOCAL}/tools/${INSTALL_LOCAL_PLATFORM_VERSION_PATH}"}
 : ${INSTALL_LOCAL_TMPDIR:="/tmp"}
 : ${INSTALL_LOCAL_PARALLELISM:="$(cat /proc/cpuinfo | grep processor | wc -l)"}
 : ${INSTALL_LOCAL_DEBUG:="false"}
 : ${INSTALL_LOCAL_TRACE:=}
 export INSTALL_LOCAL
+export INSTALL_LOCAL_OS_DISTRO
+export INSTALL_LOCAL_OS_ARCHITECTURE
+export INSTALL_LOCAL_OS_VERSION
+export INSTALL_LOCAL_PLATFORM_VERSION_PATH
 export INSTALL_LOCAL_DESTDIR
 export INSTALL_LOCAL_TMPDIR
 export INSTALL_LOCAL_PARALLELISM
 export INSTALL_LOCAL_TOOLS
 export INSTALL_LOCAL_DEBUG
-
-source "${INSTALL_LOCAL}/lib/colors.bash" || exit 1
 
 export PATH="${INSTALL_LOCAL}/libexec:${PATH}"
 
