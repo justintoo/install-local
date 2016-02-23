@@ -21,7 +21,7 @@ function has_tool__() {
 
   tool_path="${INSTALL_LOCAL_TOOLS}/${tool}/${version}"
 
-  if ! test -d "${tool_path}"; then
+  if ! test -d "${tool_path}" || test -z "${version}"; then
     info__ "${tool} ${version} is not available"
     exit 1
   else
