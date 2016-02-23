@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Summary: Output command to add a specific tool to your environment
+# Summary: Display command to add TOOL to your environment
 #
 # Usage: install-local use [--usage] TOOL VERSION
 #

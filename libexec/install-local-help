@@ -143,7 +143,7 @@ if [ -z "$1" ] || [ "$1" == "install-local" ]; then
   [ -z "$usage" ] || exit
   echo
   echo "Some useful install-local commands are:"
-  print_summaries help version commands list install uninstall
+  print_summaries help version commands list install installed use uninstall
   echo
   echo "See \`install-local help <command>' for information on a specific command."
   echo
