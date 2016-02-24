@@ -20,6 +20,15 @@ function install_tool__() {
     info__ "${tool} version was not specified"
     install-local help install
     exit 1
+  elif test -z "${prefix}"; then
+    info__ "installation \$prefix was not specified"
+    exit 1
+  elif test -z "${installdir}"; then
+    info__ "\$installdir was not specified"
+    exit 1
+  elif test -z "${workspace}"; then
+    info__ "\$workspace was not specified"
+    exit 1
   else
     install-local has "${tool}" "${version}"
   fi
@@ -30,8 +39,7 @@ function install_tool__() {
 
   mkdir -p "${workspace}"
   pushd    "${workspace}"
-  
-  install_${tool}_dependencies ${installdir}
+
   install_${tool} ${version} ${installdir}
 
   popd

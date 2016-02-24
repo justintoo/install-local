@@ -6,6 +6,8 @@ unset INSTALL_LOCAL_DIR
 # guard against executing this block twice due to bats internals
 if [ "$INSTALL_LOCAL_ROOT" != "${INSTALL_LOCAL_TEST_DIR}/root" ]; then
   export INSTALL_LOCAL_ROOT="${INSTALL_LOCAL_TEST_DIR}/root"
+  export INSTALL_LOCAL_TOOLS="${INSTALL_LOCAL_ROOT}/tools/${INSTALL_LOCAL_PLATFORM_PATH}"
+  export INSTALL_LOCAL_DESTDIR="${INSTALL_LOCAL_ROOT}/installations/${INSTALL_LOCAL_PLATFORM_PATH}"
   export HOME="${INSTALL_LOCAL_TEST_DIR}/home"
 
   PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin

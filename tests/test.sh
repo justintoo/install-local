@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -e
+#!/usr/bin/env bash
 
 #------------------------------------------------------------------------------
 #
@@ -12,6 +12,7 @@
 #
 #------------------------------------------------------------------------------
 source "${INSTALL_LOCAL}/lib/colors.bash" || exit 1
+source "${INSTALL_LOCAL}/lib/detect-os.bash" || exit 1
 
 export PATH="${INSTALL_LOCAL_BATS}/bin:${PATH}"
 
