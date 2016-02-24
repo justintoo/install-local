@@ -13,6 +13,17 @@ function install_libtool() {
   tarball="libtool-${version}.tar.xz"
   download_url="http://ftp.gnu.org/gnu/libtool/${tarball}"
 
+  echo "version=${version}"
+  echo "installdir=${installdir}"
+  echo "setup_file=${setup_file}"
+  echo "srcdir=${srcdir}"
+  echo "tarball=${tarball}"
+  echo "download_url=${download_url}"
+
+  #-------------------------------------------------------------------------------
+  # Install dependencies
+  #-------------------------------------------------------------------------------
+  install_libtool_dependencies "${installdir}"
   # TODO:
   # install-local use automake 1.14 --silent | while read setup_cmd; do
   #   echo "${setup_cmd}"
@@ -20,13 +31,6 @@ function install_libtool() {
   #   which autoconf
   #   installdir="${installdir}/autoconf/2.69"
   # done
-
-  echo "version=${version}"
-  echo "installdir=${installdir}"
-  echo "setup_file=${setup_file}"
-  echo "srcdir=${srcdir}"
-  echo "tarball=${tarball}"
-  echo "download_url=${download_url}"
  
   #-------------------------------------------------------------------------------
   # Download and unpack

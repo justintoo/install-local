@@ -13,6 +13,8 @@ function install_boost() {
   tarball="boost_${version_underscores}.tar.gz"
   download_url="http://sourceforge.net/projects/boost/files/boost/${version}/${tarball}"
 
+  install_boost_dependencies "${installdir}"
+
   debug__ "version=${version}"
   debug__ "installdir=${installdir}"
   debug__ "setup_file=${setup_file}"

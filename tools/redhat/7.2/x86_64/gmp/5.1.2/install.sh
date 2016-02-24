@@ -18,6 +18,11 @@ function install_gmp() {
   debug__ "srcdir=${srcdir}"
   debug__ "tarball=${tarball}"
   debug__ "download_url=${download_url}"
+
+  #-------------------------------------------------------------------------------
+  # Install dependencies
+  #-------------------------------------------------------------------------------
+  install_gmp_dependencies "${installdir}"
  
   #-------------------------------------------------------------------------------
   # Download and unpack

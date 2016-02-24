@@ -13,6 +13,17 @@ function install_mpc() {
   tarball="mpc-${version}.tar.gz"
   download_url="http://www.multiprecision.org/mpc/download/${tarball}"
 
+  debug__ "version=${version}"
+  debug__ "installdir=${installdir}"
+  debug__ "setup_file=${setup_file}"
+  debug__ "srcdir=${srcdir}"
+  debug__ "tarball=${tarball}"
+  debug__ "download_url=${download_url}"
+
+  #-------------------------------------------------------------------------------
+  # Install dependencies
+  #-------------------------------------------------------------------------------
+  install_mpc_dependencies "${installdir}"
   # TODO:
   # install-local use mpfr 3.1.2 --silent | while read setup_cmd; do
   #   echo "${setup_cmd}"
@@ -20,13 +31,6 @@ function install_mpc() {
   #   which autoconf
   #   installdir="${installdir}/mpfr/3.1.2"
   # done
-
-  debug__ "version=${version}"
-  debug__ "installdir=${installdir}"
-  debug__ "setup_file=${setup_file}"
-  debug__ "srcdir=${srcdir}"
-  debug__ "tarball=${tarball}"
-  debug__ "download_url=${download_url}"
  
   #-------------------------------------------------------------------------------
   # Download and unpack

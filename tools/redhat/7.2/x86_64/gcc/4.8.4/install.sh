@@ -16,6 +16,8 @@ function install_gcc() {
   # TODO:
   languages="c,c++,fortran"
 
+  install_gcc_dependencies "${installdir}"
+
   # TODO:
   # install-local use mpc 1.0 --silent | while read setup_cmd; do
   #   echo "${setup_cmd}"

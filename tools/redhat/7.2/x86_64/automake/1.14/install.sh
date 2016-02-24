@@ -13,6 +13,17 @@ function install_automake() {
   tarball="automake-${version}.tar.xz"
   download_url="http://ftp.gnu.org/gnu/automake/${tarball}"
 
+  echo "version=${version}"
+  echo "installdir=${installdir}"
+  echo "setup_file=${setup_file}"
+  echo "srcdir=${srcdir}"
+  echo "tarball=${tarball}"
+  echo "download_url=${download_url}"
+
+  #-------------------------------------------------------------------------------
+  # Install dependencies
+  #-------------------------------------------------------------------------------
+  install_automake_dependencies "${installdir}"
   # TODO:
   # install-local use autoconf 2.69 --silent | while read setup_cmd; do
   #   echo "${setup_cmd}"
@@ -20,13 +31,6 @@ function install_automake() {
   #   which autoconf
   #   installdir="${installdir}/autoconf/2.69"
   # done
-
-  echo "version=${version}"
-  echo "installdir=${installdir}"
-  echo "setup_file=${setup_file}"
-  echo "srcdir=${srcdir}"
-  echo "tarball=${tarball}"
-  echo "download_url=${download_url}"
  
   #-------------------------------------------------------------------------------
   # Download and unpack

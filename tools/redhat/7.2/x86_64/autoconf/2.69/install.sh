@@ -18,6 +18,11 @@ function install_autoconf() {
   echo "srcdir=${srcdir}"
   echo "tarball=${tarball}"
   echo "download_url=${download_url}"
+
+  #-------------------------------------------------------------------------------
+  # Install dependencies
+  #-------------------------------------------------------------------------------
+  install_autoconf_dependencies "${installdir}"
  
   #-------------------------------------------------------------------------------
   # Download and unpack
