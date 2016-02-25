@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 function install_gmp_dependencies() {
-  :
+  installdir="$1"
 }
 
 function install_gmp() {
