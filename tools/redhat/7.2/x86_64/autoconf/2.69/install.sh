@@ -1,16 +1,27 @@
 #!/bin/bash -e
+#
+# install.sh <version> <installdir>
 
 function install_autoconf_dependencies() {
-  installdir="$1"
+  local installdir="$1"
 }
 
 function install_autoconf() {
-  version="$1"
-  installdir="$2"
-  setup_file="${installdir}/setup.sh"
-  srcdir="$(pwd)/autoconf-${version}"
-  tarball="autoconf-${version}.tar.xz"
-  download_url="http://ftp.gnu.org/gnu/autoconf/${tarball}"
+  local tool="autoconf"
+  local version="$1"
+  local installdir="$2"
+
+  if [ -z "${version}" -o -z "${installdir}" ]; then
+    echo "Usage: install_autoconf <version> <installdir>"
+    exit 1
+  fi
+
+  local workspace="${installdir}/workspace"
+  local installation_log="${workspace}/installation.log"
+  local setup_file="${installdir}/setup.sh"
+  local srcdir="${workspace}/autoconf-${version}"
+  local tarball="autoconf-${version}.tar.xz"
+  local download_url="http://ftp.gnu.org/gnu/autoconf/${tarball}"
 
   echo "version=${version}"
   echo "installdir=${installdir}"
@@ -22,7 +33,13 @@ function install_autoconf() {
   #-------------------------------------------------------------------------------
   # Install dependencies
   #-------------------------------------------------------------------------------
-  install_autoconf_dependencies "${installdir}"
+  install_autoconf_dependencies "${installdir}/dependencies"
+
+  #-------------------------------------------------------------------------------
+  # Workspace
+  #-------------------------------------------------------------------------------
+  mkdir -p "${workspace}"
+  cd "${workspace}"
  
   #-------------------------------------------------------------------------------
   # Download and unpack
@@ -52,9 +69,8 @@ function install_autoconf() {
       echo "[INFO] Installing to '$installdir'"
   
       "${srcdir}/configure" --prefix="$installdir" || exit 1
-  
-      make -j all || exit 1
-      make -j install || exit 1
+      make -j${PARALLELISM:-2} all || exit 1
+      make -j${PARALLELISM:-2} install || exit 1
   fi
   
       echo "[INFO] Creating Autoconf environment setup file ${setup_file}"
@@ -67,4 +83,7 @@ export AUTOCONF_HOME="${installdir}"
 export PATH="\${AUTOCONF_HOME}/bin:\${PATH}"
 EOF
 }
+
+# script is executed as standalone installer
+[[ "$(basename -- "$0")" == "install.sh" ]] && install_autoconf $1 $2 || true
 
