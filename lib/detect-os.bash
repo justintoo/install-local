@@ -36,6 +36,7 @@ function detect_os() {
   if test "x${INSTALL_LOCAL_OS_DISTRO}" = "xredhat" || \
      test "x${INSTALL_LOCAL_OS_DISTRO}" = "xRedHatEnterpriseWorkstation"
   then
+    INSTALL_LOCAL_OS_DISTRO="redhat" # normalize os name
     INSTALL_LOCAL_OS_VERSION="$(cat /etc/redhat-release | sed 's/^Red Hat.*release \(.*\..*\) .*/\1/')"
   fi
 
